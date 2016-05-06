@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 
-var fs = require('read-file');
+var fs = require('fs');
 
 app.get('/', function (req, res) {
     res.send('Hello world');
@@ -20,15 +20,20 @@ app.post('/add', function (req, res) {
 });
 
 app.get('/text', function (req, res) {
-    fs.resdFile('./text.txt', function read(err, data) {
-       if(err)
-       {
-           throw err;
-       }
-        var content = data;
-
-        res.send(content);
+    fs.readFile('text.txt', function (err, data) {
+        if (err) {
+            return console.error(err);
+        }
+        console.log("Asynchronous read: " + data.toString());
     });
+});
+
+app.use('/user/:id', function(req, res, next) {
+    console.log('Request URL:', req.originalUrl);
+    next();
+}, function (req, res, next) {
+    console.log('Request Type:', req.method);
+    next();
 });
 
 app.listen(3000);
