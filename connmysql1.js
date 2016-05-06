@@ -6,31 +6,29 @@ var connection = mysql.createConnection({
     password : '',
     database : 'company'
 });
-
 var app = express();
 
 connection.connect(function(err){
     if(!err)
     {
-        console.log("Database is connected ...");
+        console.log("Database is connected ... \n\n");
     }
     else
     {
-        console.log("Error connection database ...");
+        console.log("Error connection database ... \n\n");
     }
+});
 
-    app.get('/', function(req, res){
-        connection.query('SELECT * FROM company LIMIT 0, 100', function (err, rows, fields) {
-            connection.end();
-            if(!err)
-            {
-                console.log('Data rows : ', rows);
-            }
-            else
-            {
-                console.log('Error Query.');
-            }
-        });
+app.get('/', function(req, res){
+    connection.query('SELECT id, contact_name, contact_tel, created_at FROM `company` LIMIT 0,10', function(err, rows, fields){
+        connection.end();
+        if(!err)
+        {
+            console.log('The rows is : ', rows);
+        }
+        else
+        {
+            console.log('Error Query.');
+        }
     });
 });
-app.listen(3000)
