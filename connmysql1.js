@@ -25,6 +25,7 @@ app.get('/', function(req, res){
         if(!err)
         {
             console.log('The rows is : ', rows);
+            console.log(fields);
         }
         else
         {
